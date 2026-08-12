@@ -4,24 +4,21 @@ import MainLayout from "../layout/MainLayout";
 import Swal from "sweetalert2";
 
 import { createBooking } from "../services/bookingService";
-import { getAllUsers } from "../services/userService";
 import { getAllEquipment } from "../services/equipmentService";
 
 function AddBooking() {
 
     const navigate = useNavigate();
 
-    const [users, setUsers] = useState([]);
     const [equipmentList, setEquipmentList] = useState([]);
 
     const [formData, setFormData] = useState({
 
-        userId: "",
-        equipmentId: "",
-        bookingDate: "",
-        returnDate: ""
+    equipmentId: "",
+    bookingDate: "",
+    returnDate: ""
 
-    });
+});
 
     useEffect(() => {
 
@@ -33,11 +30,9 @@ function AddBooking() {
 
         try {
 
-            const userData = await getAllUsers();
 
             const equipmentData = await getAllEquipment();
 
-            setUsers(userData);
 
             setEquipmentList(equipmentData);
 
@@ -72,11 +67,10 @@ function AddBooking() {
         e.preventDefault();
 
         if (
-            !formData.userId ||
-            !formData.equipmentId ||
-            !formData.bookingDate ||
-            !formData.returnDate
-        ) {
+    !formData.equipmentId ||
+    !formData.bookingDate ||
+    !formData.returnDate
+) {
 
             Swal.fire(
                 "Validation",
@@ -103,8 +97,8 @@ function AddBooking() {
         const booking = {
 
             user: {
-                userId: Number(formData.userId)
-            },
+    userId: Number(localStorage.getItem("userId"))
+},
 
             equipment: {
                 equipmentId: Number(formData.equipmentId)
@@ -178,42 +172,7 @@ function AddBooking() {
 
                         <form onSubmit={handleSubmit}>
 
-                            <div className="mb-3">
-
-                                <label className="form-label">
-
-                                    User
-
-                                </label>
-
-                                <select
-                                    className="form-select"
-                                    name="userId"
-                                    value={formData.userId}
-                                    onChange={handleChange}
-                                    required
-                                >
-
-                                    <option value="">
-                                        Select User
-                                    </option>
-
-                                    {users.map((user) => (
-
-                                        <option
-                                            key={user.userId}
-                                            value={user.userId}
-                                        >
-
-                                            {user.firstName} {user.lastName}
-
-                                        </option>
-
-                                    ))}
-
-                                </select>
-
-                            </div>
+                            
 
                             <div className="mb-3">
 

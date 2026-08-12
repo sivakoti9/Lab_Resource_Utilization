@@ -15,7 +15,11 @@ import EditUser from "./pages/EditUser";
 import Bookings from "./pages/Bookings";
 import AddBooking from "./pages/AddBooking";
 import EditBooking from "./pages/EditBooking";
-
+import Maintenance from "./pages/Maintenance";
+import Calibration from "./pages/Calibration";
+import CostTracking from "./pages/CostTracking";
+import Reports from "./pages/Reports";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -207,6 +211,73 @@ function App() {
             ]}
         >
             <EditBooking />
+        </ProtectedRoute>
+    }
+/>
+{/* Maintenance */}
+
+<Route
+    path="/maintenance"
+    element={
+        <ProtectedRoute
+            allowedRoles={[
+                "ADMIN",
+                "LAB_MANAGER",
+                "LAB_TECHNICIAN"
+            ]}
+        >
+            <Maintenance />
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/calibrations"
+    element={
+        <ProtectedRoute
+            allowedRoles={[
+                "ADMIN",
+                "LAB_MANAGER",
+                "LAB_TECHNICIAN"
+            ]}
+        >
+            <Calibration />
+        </ProtectedRoute>
+    }
+/>
+{/* Cost Tracking */}
+
+<Route
+    path="/costs"
+    element={
+        <ProtectedRoute
+            allowedRoles={[
+                "ADMIN",
+                "LAB_MANAGER"
+            ]}
+        >
+            <CostTracking />
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/reports"
+    element={
+        <ProtectedRoute
+            allowedRoles={[
+                "ADMIN",
+                "LAB_MANAGER",
+                "DEPARTMENT_HEAD"
+            ]}
+        >
+            <Reports />
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/notifications"
+    element={
+        <ProtectedRoute>
+            <Notifications />
         </ProtectedRoute>
     }
 />

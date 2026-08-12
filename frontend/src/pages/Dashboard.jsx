@@ -5,6 +5,18 @@ import { getDashboardData } from "../services/dashboardService";
 
 function Dashboard() {
 
+    const role = localStorage.getItem("role");
+
+    const canViewUsers =
+        role === "ADMIN" ||
+        role === "LAB_MANAGER" ||
+        role === "DEPARTMENT_HEAD";
+
+    const canViewUtilization =
+        role === "ADMIN" ||
+        role === "LAB_MANAGER" ||
+        role === "DEPARTMENT_HEAD";
+
     const [equipment, setEquipment] = useState([]);
     const [utilization, setUtilization] = useState([]);
 
@@ -26,11 +38,7 @@ function Dashboard() {
 
             const dashboard = await getDashboardData();
 
-            const utilizationData =
-                await getEquipmentUtilization();
-
             setEquipment(dashboard.equipment);
-            setUtilization(utilizationData);
 
             setTotalUsers(dashboard.totalUsers);
             setTotalBookings(dashboard.totalBookings);
@@ -38,9 +46,18 @@ function Dashboard() {
             setWaitingBookings(dashboard.waitingBookings);
             setReturnedBookings(dashboard.returnedBookings);
 
+            if (canViewUtilization) {
+
+                const utilizationData =
+                    await getEquipmentUtilization();
+
+                setUtilization(utilizationData);
+
+            }
+
         } catch (error) {
 
-            console.error(error);
+            console.error("Dashboard Error:", error);
 
         }
 
@@ -59,7 +76,6 @@ function Dashboard() {
     const maintenanceEquipment = equipment.filter(
         item => item.status === "UNDER_MAINTENANCE"
     ).length;
-
     return (
 
         <MainLayout>
@@ -67,10 +83,10 @@ function Dashboard() {
             <div className="container-fluid">
 
                 <h2 className="fw-bold mb-4">
-
                     Dashboard
-
                 </h2>
+
+                {/* EQUIPMENT STATISTICS */}
 
                 <div className="row g-4">
 
@@ -139,24 +155,29 @@ function Dashboard() {
                     </div>
 
                 </div>
+                {/* BOOKING STATISTICS */}
 
                 <div className="row g-4 mt-2">
 
-                    <div className="col-lg-3 col-md-6">
+                    {canViewUsers && (
 
-                        <div className="card bg-info text-white shadow">
+                        <div className="col-lg-3 col-md-6">
 
-                            <div className="card-body text-center">
+                            <div className="card bg-info text-white shadow">
 
-                                <h6>Total Users</h6>
+                                <div className="card-body text-center">
 
-                                <h2>{totalUsers}</h2>
+                                    <h6>Total Users</h6>
+
+                                    <h2>{totalUsers}</h2>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                    )}
 
                     <div className="col-lg-3 col-md-6">
 
@@ -223,94 +244,105 @@ function Dashboard() {
                     </div>
 
                 </div>
+                {/* EQUIPMENT UTILIZATION */}
 
-                <div className="card shadow mt-5">
+                {canViewUtilization && (
 
-                    <div className="card-header bg-dark text-white">
+                    <div className="card shadow mt-5">
 
-                        <h5 className="mb-0">
+                        <div className="card-header bg-dark text-white">
 
-                            Equipment Utilization
+                            <h5 className="mb-0">
+                                Equipment Utilization
+                            </h5>
 
-                        </h5>
+                        </div>
 
-                    </div>
+                        <div className="card-body">
 
-                    <div className="card-body">
+                            <div className="table-responsive">
 
-                        <div className="table-responsive">
+                                <table className="table table-bordered table-hover">
 
-                            <table className="table table-bordered table-hover">
+                                    <thead className="table-dark">
 
-                                <thead className="table-dark">
+                                        <tr>
 
-                                    <tr>
-
-                                        <th>ID</th>
-                                        <th>Equipment</th>
-                                        <th>Total</th>
-                                        <th>Booked</th>
-                                        <th>Available</th>
-                                        <th>Utilization</th>
-
-                                    </tr>
-
-                                </thead>
-
-                                <tbody>
-
-                                    {utilization.map(item => (
-
-                                        <tr key={item.equipmentId}>
-
-                                            <td>{item.equipmentId}</td>
-
-                                            <td>{item.equipmentName}</td>
-
-                                            <td>{item.totalQuantity}</td>
-
-                                            <td>{item.bookedQuantity}</td>
-
-                                            <td>{item.availableQuantity}</td>
-
-                                            <td>
-
-                                                <div className="progress">
-
-                                                    <div
-                                                        className={`progress-bar ${
-                                                            item.utilizationPercentage >= 90
-                                                                ? "bg-danger"
-                                                                : item.utilizationPercentage >= 60
-                                                                ? "bg-warning"
-                                                                : "bg-success"
-                                                        }`}
-                                                        style={{
-                                                            width: `${item.utilizationPercentage}%`
-                                                        }}
-                                                    >
-
-                                                        {item.utilizationPercentage}%
-
-                                                    </div>
-
-                                                </div>
-
-                                            </td>
+                                            <th>ID</th>
+                                            <th>Equipment</th>
+                                            <th>Total</th>
+                                            <th>Booked</th>
+                                            <th>Available</th>
+                                            <th>Utilization</th>
 
                                         </tr>
 
-                                    ))}
+                                    </thead>
 
-                                </tbody>
+                                    <tbody>
 
-                            </table>
+                                        {utilization.map((item) => (
+
+                                            <tr key={item.equipmentId}>
+
+                                                <td>
+                                                    {item.equipmentId}
+                                                </td>
+
+                                                <td>
+                                                    {item.equipmentName}
+                                                </td>
+
+                                                <td>
+                                                    {item.totalQuantity}
+                                                </td>
+
+                                                <td>
+                                                    {item.bookedQuantity}
+                                                </td>
+
+                                                <td>
+                                                    {item.availableQuantity}
+                                                </td>
+
+                                                <td>
+
+                                                    <div className="progress">
+
+                                                        <div
+                                                            className={
+                                                                item.utilizationPercentage >= 90
+                                                                    ? "progress-bar bg-danger"
+                                                                    : item.utilizationPercentage >= 60
+                                                                    ? "progress-bar bg-warning"
+                                                                    : "progress-bar bg-success"
+                                                            }
+                                                            style={{
+                                                                width: `${item.utilizationPercentage}%`
+                                                            }}
+                                                        >
+                                                            {item.utilizationPercentage}%
+                                                        </div>
+
+                                                    </div>
+
+                                                </td>
+
+                                            </tr>
+
+                                        ))}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                )}
 
             </div>
 

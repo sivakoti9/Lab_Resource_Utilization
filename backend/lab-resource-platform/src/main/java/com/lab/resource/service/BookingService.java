@@ -50,7 +50,19 @@ public interface BookingService {
     long getTodayBookings();
 
     long getTodayReturns();
+    // =====================================================
+// USER-SPECIFIC DASHBOARD STATISTICS
+// =====================================================
 
+    long getUserTotalBookings();
+
+    long getUserBookedCount();
+
+    long getUserReturnedCount();
+
+    long getUserWaitingCount();
+
+    long getUserActiveBookings();
     // =====================================================
     // REPORTS
     // =====================================================

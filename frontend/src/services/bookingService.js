@@ -109,7 +109,34 @@ export const getActiveBookingsCount = async () => {
     const response = await api.get("/bookings/count/active");
     return response.data;
 };
+// ===================================
+// Logged-in User Dashboard Statistics
+// ===================================
 
+export const getMyTotalBookings = async () => {
+    const response = await api.get("/bookings/my/count");
+    return response.data;
+};
+
+export const getMyBookedCount = async () => {
+    const response = await api.get("/bookings/my/count/booked");
+    return response.data;
+};
+
+export const getMyReturnedCount = async () => {
+    const response = await api.get("/bookings/my/count/returned");
+    return response.data;
+};
+
+export const getMyWaitingCount = async () => {
+    const response = await api.get("/bookings/my/count/waiting");
+    return response.data;
+};
+
+export const getMyActiveBookingsCount = async () => {
+    const response = await api.get("/bookings/my/count/active");
+    return response.data;
+};
 // ===================================
 // Reports
 // ===================================

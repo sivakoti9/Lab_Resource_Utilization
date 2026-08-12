@@ -158,6 +158,44 @@ public class BookingController {
         return bookingService.getActiveBookings();
 
     }
+    // =====================================================
+// LOGGED-IN USER DASHBOARD STATISTICS
+// =====================================================
+
+    @GetMapping("/my/count")
+    public long getUserTotalBookings() {
+
+        return bookingService.getUserTotalBookings();
+
+    }
+
+    @GetMapping("/my/count/booked")
+    public long getUserBookedCount() {
+
+        return bookingService.getUserBookedCount();
+
+    }
+
+    @GetMapping("/my/count/returned")
+    public long getUserReturnedCount() {
+
+        return bookingService.getUserReturnedCount();
+
+    }
+
+    @GetMapping("/my/count/waiting")
+    public long getUserWaitingCount() {
+
+        return bookingService.getUserWaitingCount();
+
+    }
+
+    @GetMapping("/my/count/active")
+    public long getUserActiveBookings() {
+
+        return bookingService.getUserActiveBookings();
+
+    }
 
     // =====================================================
     // FILTER BY STATUS

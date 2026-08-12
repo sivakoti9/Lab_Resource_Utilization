@@ -112,7 +112,73 @@ function Sidebar() {
 
                 )}
 
-                {/* Utilization */}
+                {/* Maintenance */}
+
+                {(role === "ADMIN" ||
+                    role === "LAB_MANAGER" ||
+                    role === "LAB_TECHNICIAN") && (
+
+                    <NavLink
+                        to="/maintenance"
+                        style={menuStyle}
+                    >
+                        🛠️ Maintenance
+                    </NavLink>
+
+                )}
+
+                {/* Calibration */}
+
+                {(role === "ADMIN" ||
+                    role === "LAB_MANAGER" ||
+                    role === "LAB_TECHNICIAN") && (
+
+                    <NavLink
+                        to="/calibrations"
+                        style={menuStyle}
+                    >
+                        🧪 Calibration
+                    </NavLink>
+
+                )}
+
+                {/* Cost Tracking */}
+
+                {(role === "ADMIN" ||
+                    role === "LAB_MANAGER") && (
+
+                    <NavLink
+                        to="/costs"
+                        style={menuStyle}
+                    >
+                        💰 Cost Tracking
+                    </NavLink>
+
+                )}
+                {/* Reports */}
+
+{(role === "ADMIN" ||
+    role === "LAB_MANAGER" ||
+    role === "DEPARTMENT_HEAD") && (
+
+    <NavLink
+        to="/reports"
+        style={menuStyle}
+    >
+        📑 Reports
+    </NavLink>
+
+)}
+{/* Notifications */}
+
+<NavLink
+    to="/notifications"
+    style={menuStyle}
+>
+    🔔 Notifications
+</NavLink>
+
+                {/* Equipment Utilization */}
 
                 {(role === "ADMIN" ||
                     role === "LAB_MANAGER" ||

@@ -382,6 +382,61 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
     }
+    // =====================================================
+// USER-SPECIFIC DASHBOARD STATISTICS
+// =====================================================
+
+    @Override
+    public long getUserTotalBookings() {
+
+        User user = getLoggedInUser();
+
+        return bookingRepository.countByUser(user);
+    }
+
+    @Override
+    public long getUserBookedCount() {
+
+        User user = getLoggedInUser();
+
+        return bookingRepository.countByUserAndStatus(
+                user,
+                "BOOKED"
+        );
+    }
+
+    @Override
+    public long getUserReturnedCount() {
+
+        User user = getLoggedInUser();
+
+        return bookingRepository.countByUserAndStatus(
+                user,
+                "RETURNED"
+        );
+    }
+
+    @Override
+    public long getUserWaitingCount() {
+
+        User user = getLoggedInUser();
+
+        return bookingRepository.countByUserAndStatus(
+                user,
+                "WAITING"
+        );
+    }
+
+    @Override
+    public long getUserActiveBookings() {
+
+        User user = getLoggedInUser();
+
+        return bookingRepository.countByUserAndActive(
+                user,
+                true
+        );
+    }
     private void validateBookingOwnerOrAdmin(Booking booking) {
 
         User loggedInUser = getLoggedInUser();

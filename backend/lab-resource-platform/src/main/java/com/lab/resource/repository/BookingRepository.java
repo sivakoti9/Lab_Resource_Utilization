@@ -61,7 +61,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     long countByActive(Boolean active);
 
     long count();
+    long countByUser(User user);
 
+    long countByUserAndStatus(User user, String status);
+
+    long countByUserAndActive(User user, Boolean active);
     // =====================================================
     // FILTERS
     // =====================================================

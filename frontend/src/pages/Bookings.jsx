@@ -512,19 +512,26 @@ const handleReject = async (id) => {
 
     )}
 
-    {(role === "ADMIN" ||
-      role === "LAB_MANAGER" ||
-      role === "LAB_TECHNICIAN") &&
-      booking.status === "BOOKED" && (
+    {(
+    role === "ADMIN" ||
+    role === "LAB_MANAGER" ||
+    role === "LAB_TECHNICIAN" ||
+    (
+        (role === "STUDENT" || role === "RESEARCHER") &&
+        String(booking.user?.userId) === String(localStorage.getItem("userId"))
+    )
+) &&
+booking.status === "BOOKED" && (
 
-        <button
-            className="btn btn-success btn-sm me-2"
-            onClick={() => handleReturn(booking.bookingId)}
-        >
-            <i className="bi bi-arrow-return-left"></i>
-        </button>
+    <button
+        className="btn btn-success btn-sm me-2"
+        onClick={() => handleReturn(booking.bookingId)}
+        title="Return Equipment"
+    >
+        <i className="bi bi-arrow-return-left"></i>
+    </button>
 
-    )}
+)}
 
     {(role === "ADMIN" ||
       role === "LAB_MANAGER") &&
