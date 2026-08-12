@@ -9,8 +9,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
-@CrossOrigin(origins = "http://localhost:5173")
-public class BookingController {
+@CrossOrigin(
+    origins = {
+        "http://localhost:5173",
+        "https://lab-resource-platform-frontend.onrender.com"
+    }
+)public class BookingController {
 
     private final BookingService bookingService;
 
