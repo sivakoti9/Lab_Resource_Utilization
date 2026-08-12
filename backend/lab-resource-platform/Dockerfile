@@ -1,11 +1,18 @@
-FROM eclipse-temurin:21-jdk
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
-COPY . .
+COPY pom.xml .
+COPY src ./src
 
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-EXPOSE 8080
+FROM eclipse-temurin:21-jre
 
-CMD ["java", "-jar", "target/lab-resource-platform-0.0.1-SNAPSHOT.jar"]
+WORKDIR /app
+
+COPY --from=build /app/target/lab-resource-platform-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 10000
+
+CMD ["java", "-jar", "app.jar"]
